@@ -24,7 +24,8 @@
 		class_name: '', // could be set to 'gritter-light' to use white notifications
 		fade_in_speed: 'medium', // how fast notifications fade in
 		fade_out_speed: 1000, // how fast the notices fade out
-		time: 6000 // hang on the screen for...
+		time: 6000, // hang on the screen for...
+		link: '' //click me to go to go somewhere...
 	}
 	
 	/**
@@ -73,6 +74,7 @@
 		fade_in_speed: '',
 		fade_out_speed: '',
 		time: '',
+    link: '',
 		
 		// Private - no touchy the private parts
 		_custom_timer: 0,
@@ -80,7 +82,7 @@
 		_is_setup: 0,
 		_tpl_close: '<div class="gritter-close"></div>',
 		_tpl_title: '<span class="gritter-title">[[title]]</span>',
-		_tpl_item: '<div id="gritter-item-[[number]]" class="gritter-item-wrapper [[item_class]]" style="display:none"><div class="gritter-top"></div><div class="gritter-item">[[close]][[image]]<div class="[[class_name]]">[[title]]<p>[[text]]</p></div><div style="clear:both"></div></div><div class="gritter-bottom"></div></div>',
+		_tpl_item: '<a id="gritter-item-[[number]]" [[link]] class="gritter-item-wrapper [[item_class]]" style="display:none"><div class="gritter-top"></div><div class="gritter-item">[[close]][[image]]<div class="[[class_name]]">[[title]]<p>[[text]]</p></div><div style="clear:both"></div></div><div class="gritter-bottom"></div></a>',
 		_tpl_wrap: '<div id="gritter-notice-wrapper"></div>',
 		
 		/**
@@ -112,6 +114,7 @@
 				item_class = params.class_name || $.gritter.options.class_name,
 				position = $.gritter.options.position,
 				time_alive = params.time || '';
+				link = params.link || '';
 
 			this._verifyWrapper();
 			
@@ -133,7 +136,8 @@
 			}
 			
 			var image_str = (image != '') ? '<img src="' + image + '" class="gritter-image" />' : '',
-				class_name = (image != '') ? 'gritter-with-image' : 'gritter-without-image';
+				class_name = (image != '') ? 'gritter-with-image' : 'gritter-without-image',
+			  link_str = (link != '') ? 'href="' + link + '"' : '';
 			
 			// String replacements on the template
 			if(title){
@@ -143,8 +147,8 @@
 			}
 			
 			tmp = this._str_replace(
-				['[[title]]', '[[text]]', '[[close]]', '[[image]]', '[[number]]', '[[class_name]]', '[[item_class]]'],
-				[title, text, this._tpl_close, image_str, this._item_count, class_name, item_class], tmp
+				['[[title]]', '[[text]]', '[[close]]', '[[image]]', '[[number]]', '[[class_name]]', '[[item_class]]', '[[link]]'],
+				[title, text, this._tpl_close, image_str, this._item_count, class_name, item_class, link_str], tmp
 			);
 
 			// If it's false, don't show another gritter message
