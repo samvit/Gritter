@@ -50,6 +50,9 @@
 	font-size: 11px;
 	font-family:verdana;
 }
+.gritter-link div {
+  color: #eee;
+}
 .hover .gritter-item {
 	background-position:right -40px;
 }
